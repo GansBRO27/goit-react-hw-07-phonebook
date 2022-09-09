@@ -13,10 +13,8 @@ export class App extends Component {
     filter: '',
   };
   reset = () => {};
-  clickOnBtnDelete = e => {
-    const arr = this.state.contacts.filter(
-      contact => contact.id !== e.currentTarget.name
-    );
+  clickOnBtnDelete = id => {
+    const arr = this.state.contacts.filter(contact => contact.id !== id);
     this.setState({
       contacts: arr,
     });

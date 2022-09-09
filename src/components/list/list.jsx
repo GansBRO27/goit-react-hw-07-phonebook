@@ -7,7 +7,7 @@ export default function ContactList({ contacts, onClick }) {
           <li key={contact.name}>
             <p>{contact.name}</p>
             <p>{contact.number}</p>
-            <button onClick={onClick} name={contact.id}>
+            <button onClick={() => onClick(contact.id)} name={contact.id}>
               delete contact
             </button>
           </li>
