@@ -3,11 +3,12 @@ export default function ContactList({ contacts, onClick }) {
   return (
     <ul>
       {contacts.map(contact => {
+        const { name, number, id } = contact;
         return (
-          <li key={contact.name}>
-            <p>{contact.name}</p>
-            <p>{contact.number}</p>
-            <button onClick={() => onClick(contact.id)} name={contact.id}>
+          <li key={name}>
+            <p>{name}</p>
+            <p>{number}</p>
+            <button onClick={() => onClick(id)} name={id}>
               delete contact
             </button>
           </li>

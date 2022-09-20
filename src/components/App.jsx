@@ -12,7 +12,21 @@ export class App extends Component {
     contacts: [],
     filter: '',
   };
-  reset = () => {};
+
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parseContacts = JSON.parse(contacts);
+    if (parseContacts) {
+      this.setState({ contacts: parseContacts });
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      console.log('contacts did update');
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   clickOnBtnDelete = id => {
     const arr = this.state.contacts.filter(contact => contact.id !== id);
     this.setState({
