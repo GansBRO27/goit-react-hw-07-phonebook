@@ -7,13 +7,18 @@ import ContactList from './list/list';
 import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 export function AppHook() {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(() => {
+    const localStorageContacts = window.localStorage.getItem('contacts');
+    const parsedContats = JSON.parse(localStorageContacts);
+    return parsedContats || [];
+  });
+
   const [filter, setFilter] = useState('');
-  const contactsParse = localStorage.getItem('contacts');
-  const parseContacts = JSON.parse(contactsParse);
+
   useEffect(() => {
-    if (parseContacts) {
-      setContacts(parseContacts);
+    const localcontacts = localStorage.getItem('contacts');
+    if (localcontacts) {
+      setContacts(JSON.parse(localcontacts));
     }
   }, []);
   useEffect(() => {
@@ -49,9 +54,13 @@ export function AppHook() {
     <div>
       <Title>Phonebook</Title>
       <FormHook onSubmit={formHandleSubmit}></FormHook>
-      <Title>Contacts</Title>
-      <Filter onChange={handleChangeFilter} filter={filter} />
-      <ContactList contacts={visibleContact} onClick={clickOnBtnDelete} />
+      {contacts.length > 0 && (
+        <>
+          <Title>Contacts</Title>
+          <Filter onChange={handleChangeFilter} filter={filter} />
+          <ContactList contacts={visibleContact} onClick={clickOnBtnDelete} />
+        </>
+      )}
     </div>
   );
 }
