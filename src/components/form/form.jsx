@@ -4,7 +4,6 @@ import InputLabel from '../label/inputLabel';
 import Button from '../button/button';
 import Number from '../number/number';
 import { useState } from 'react';
-import { useEffect } from 'react';
 
 export default function FormHook({ onSubmit }) {
   const [name, setName] = useState('');
