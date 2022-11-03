@@ -1,7 +1,14 @@
-export default function Filter({ onChange, filter }) {
+import { useDispatch, useSelector } from 'react-redux';
+import { filterContacts } from 'redux/contactSlise';
+export default function Filter() {
+  const filter = useSelector(state => state.contacts.filter);
+  const dispatch = useDispatch();
+  const handleChangeFilter = e => {
+    dispatch(filterContacts(e.currentTarget.value));
+  };
   return (
     <input
-      onChange={onChange}
+      onChange={handleChangeFilter}
       value={filter}
       type="text"
       name="filter"

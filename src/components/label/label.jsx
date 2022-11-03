@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 export default function Input({ change, value }) {
   return (
     <input
@@ -12,7 +11,3 @@ export default function Input({ change, value }) {
     />
   );
 }
-Input.propTypes = {
-  change: PropTypes.func,
-  value: PropTypes.string,
-};
