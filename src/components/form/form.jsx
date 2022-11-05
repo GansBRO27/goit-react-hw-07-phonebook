@@ -1,4 +1,3 @@
-// import { Component } from 'react';
 import Input from '../label/label';
 import InputLabel from '../label/inputLabel';
 import Button from '../button/button';
@@ -7,37 +6,6 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addContact } from 'redux/contactSlise';
 import { nanoid } from '@reduxjs/toolkit';
-// export default function FormHook({ onSubmit }) {
-//   const [name, setName] = useState('');
-//   const [number, setNumber] = useState('');
-
-//   const changeName = event => {
-//     setName(event.currentTarget.value);
-//   };
-//   const reset = () => {
-//     setName('');
-//     setNumber('');
-//   };
-//   const changeNumber = event => {
-//     setNumber(event.currentTarget.value);
-//   };
-//   const handleSubmit = event => {
-//     event.preventDefault();
-//     onSubmit({ name, number });
-//     reset();
-//   };
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <InputLabel label="name">
-//         <Input value={name} change={changeName} />
-//       </InputLabel>
-//       <InputLabel>
-//         <Number value={number} onChange={changeNumber} />
-//       </InputLabel>
-//       <Button />
-//     </form>
-//   );
-// }
 export default function FormHook({ onSubmit }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -49,6 +17,7 @@ export default function FormHook({ onSubmit }) {
     setNumber(event.currentTarget.value);
   };
   const handleSubmit = event => {
+    event.preventDefault();
     const form = event.target;
     dispatch(
       addContact({
@@ -57,10 +26,12 @@ export default function FormHook({ onSubmit }) {
         id: nanoid(),
       })
     );
-
-    event.preventDefault();
+    formReset();
   };
-
+  const formReset = () => {
+    setName('');
+    setNumber('');
+  };
   return (
     <form onSubmit={handleSubmit}>
       <InputLabel label="name">

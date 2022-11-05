@@ -1,70 +1,8 @@
-// import { Component } from 'react';
-// import ContactForm from './form/form';
 import FormHook from './form/form';
 import Filter from './filter/filter';
 import Title from './title.styled';
 import ContactList from './list/list';
-// import { useState, useEffect } from 'react';
-// import { nanoid } from 'nanoid';
 import { useSelector } from 'react-redux';
-// export function AppHook() {
-//   const [contacts, setContacts] = useState(() => {
-//     const localStorageContacts = window.localStorage.getItem('contacts');
-//     const parsedContats = JSON.parse(localStorageContacts);
-//     return parsedContats || [];
-//   });
-
-//   const [filter, setFilter] = useState('');
-
-//   useEffect(() => {
-//     const localcontacts = localStorage.getItem('contacts');
-//     if (localcontacts) {
-//       setContacts(JSON.parse(localcontacts));
-//     }
-//   }, []);
-//   useEffect(() => {
-//     localStorage.setItem('contacts', JSON.stringify(contacts));
-//   }, [contacts]);
-
-//   const normalizeFilter = filter.toLowerCase();
-//   const visibleContact = contacts.filter(contact =>
-//     contact.name.toLowerCase().includes(normalizeFilter)
-//   );
-
-//   const clickOnBtnDelete = id => {
-//     setContacts(contacts.filter(contact => contact.id !== id));
-//   };
-//   const handleChangeFilter = e => {
-//     setFilter(e.currentTarget.value);
-//   };
-//   const formHandleSubmit = data => {
-//     if (contacts.filter(contact => contact.name === data.name).length > 0) {
-//       alert(`${data.name} is already in contacts`);
-//       return;
-//     }
-
-//     setContacts(prevState => {
-//       return [
-//         ...prevState,
-//         { name: data.name, number: data.number, id: nanoid() },
-//       ];
-//     });
-//   };
-
-//   return (
-//     <div>
-//       <Title>Phonebook</Title>
-//       <FormHook onSubmit={formHandleSubmit}></FormHook>
-//       {contacts.length > 0 && (
-//         <>
-//           <Title>Contacts</Title>
-//           <Filter onChange={handleChangeFilter} filter={filter} />
-//           <ContactList contacts={visibleContact} onClick={clickOnBtnDelete} />
-//         </>
-//       )}
-//     </div>
-//   );
-// }
 export function AppHook() {
   const contacts = useSelector(state => state.contacts.contacts);
   console.log(contacts);
@@ -72,12 +10,14 @@ export function AppHook() {
     <div>
       <Title>Phonebook</Title>
       <FormHook></FormHook>
-      {contacts.length > 0 && (
+      {contacts.length > 0 ? (
         <>
           <Title>Contacts</Title>
           <Filter />
           <ContactList />
         </>
+      ) : (
+        'you not have contacts'
       )}
     </div>
   );
