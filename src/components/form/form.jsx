@@ -3,34 +3,47 @@ import InputLabel from '../label/inputLabel';
 import Button from '../button/button';
 import Number from '../number/number';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactSlise';
-import { nanoid } from '@reduxjs/toolkit';
-export default function FormHook({ onSubmit }) {
+
+import {
+  useGetContactsQuery,
+  useAddContactMutation,
+} from '../../redux/contacts/contactApi';
+export default function FormHook() {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const dispatch = useDispatch();
+  const [phone, setPhone] = useState('');
+  const { data: contacts } = useGetContactsQuery();
+  const [addContact] = useAddContactMutation();
+
   const changeName = event => {
     setName(event.currentTarget.value);
   };
   const changeNumber = event => {
-    setNumber(event.currentTarget.value);
+    setPhone(event.currentTarget.value);
+  };
+
+  const formSubmitHandle = async data => {
+    if (contacts.filter(contact => contact.name === data.name).length > 0) {
+      console.log(`${data.name} is already in contacts`);
+      return;
+    }
+
+    try {
+      await addContact(data);
+      console.log('Contact added');
+    } catch (error) {
+      console.log('Something wrong... try again');
+    }
   };
   const handleSubmit = event => {
     event.preventDefault();
-    const form = event.target;
-    dispatch(
-      addContact({
-        name: form.elements.name.value,
-        number: form.elements.number.value,
-        id: nanoid(),
-      })
-    );
+
+    formSubmitHandle({ name, phone });
+
     formReset();
   };
   const formReset = () => {
     setName('');
-    setNumber('');
+    setPhone('');
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -38,7 +51,7 @@ export default function FormHook({ onSubmit }) {
         <Input value={name} change={changeName} />
       </InputLabel>
       <InputLabel>
-        <Number value={number} onChange={changeNumber} />
+        <Number value={phone} onChange={changeNumber} />
       </InputLabel>
       <Button />
     </form>

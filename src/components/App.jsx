@@ -2,23 +2,27 @@ import FormHook from './form/form';
 import Filter from './filter/filter';
 import Title from './title.styled';
 import ContactList from './list/list';
-import { useSelector } from 'react-redux';
+
+import { useGetContactsQuery } from '../redux/contacts/contactApi';
 export function AppHook() {
-  const contacts = useSelector(state => state.contacts.contacts);
-  console.log(contacts);
+  const { data, error, isLoading } = useGetContactsQuery();
+
   return (
     <div>
       <Title>Phonebook</Title>
       <FormHook></FormHook>
-      {contacts.length > 0 ? (
-        <>
-          <Title>Contacts</Title>
-          <Filter />
-          <ContactList />
-        </>
-      ) : (
-        'you not have contacts'
-      )}
+      <>
+        <Title>Contacts</Title>
+        {!isLoading && data.length > 0 ? (
+          <>
+            <Filter />
+            <ContactList />
+          </>
+        ) : (
+          <p>Phonebook empty</p>
+        )}
+        {error && <p>Sorry.. somethiing wrong. Try again.</p>}
+      </>
     </div>
   );
 }
